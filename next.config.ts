@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
         hostname: '**',
       },
     ],
+    domains: ['opensearch.org', 'images.unsplash.com', 'placehold.co'],
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
