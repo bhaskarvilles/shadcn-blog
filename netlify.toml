@@ -1,6 +1,6 @@
 [build]
   command = "npm install --legacy-peer-deps && npm run build"
-  publish = ".next"
+  publish = "."
 
 [build.environment]
   NETLIFY_NEXT_PLUGIN_SKIP = "true"
@@ -12,6 +12,13 @@
 # Functions directory
 [functions]
   directory = "netlify/functions"
+
+# Redirect for static blog posts - notice we redirect directly to the HTML file
+[[redirects]]
+  from = "/blog/:slug"
+  to = "/blog/:slug.html"
+  status = 200
+  force = true
 
 # Redirect for single blog post API
 [[redirects]]
@@ -27,14 +34,7 @@
   status = 200
   force = false
 
-# Direct call to HTML-generating Netlify function for blog posts
-[[redirects]]
-  from = "/blog/:slug"
-  to = "/.netlify/functions/blog-post-html/:slug"
-  status = 200
-  force = true
-
-# Fallback for blog routes - ensure we serve the SPA for client-side routing
+# Fallback for SPA routes
 [[redirects]]
   from = "/*"
   to = "/index.html"
