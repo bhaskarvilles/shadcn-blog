@@ -13,22 +13,29 @@
 [functions]
   directory = "netlify/functions"
 
-# Redirect for single blog post
+# Redirect for single blog post API
 [[redirects]]
   from = "/api/posts/:slug"
   to = "/.netlify/functions/get-post/:slug"
   status = 200
   force = false
 
-# Redirect for all blog posts
+# Redirect for all blog posts API
 [[redirects]]
   from = "/api/posts"
   to = "/.netlify/functions/get-posts"
   status = 200
   force = false
 
-# Fallback for blog routes
+# Direct call to HTML-generating Netlify function for blog posts
 [[redirects]]
-  from = "/blog/*"
-  to = "/blog/[slug]"
+  from = "/blog/:slug"
+  to = "/.netlify/functions/blog-post-html/:slug"
+  status = 200
+  force = true
+
+# Fallback for blog routes - ensure we serve the SPA for client-side routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
   status = 200 
