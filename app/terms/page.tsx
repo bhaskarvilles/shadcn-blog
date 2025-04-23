@@ -65,7 +65,7 @@ export default function TermsPage() {
           
           <h2>7. Disclaimer of Warranties</h2>
           <p>
-            Our services are provided "as is" without any warranties, expressed or implied.
+            Our services are provided &quot;as is&quot; without any warranties, expressed or implied.
           </p>
           
           <h2>8. Limitation of Liability</h2>
