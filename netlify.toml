@@ -4,6 +4,31 @@
 
 [build.environment]
   NETLIFY_NEXT_PLUGIN_SKIP = "true"
+  NODE_VERSION = "20.15.0"
 
 [[plugins]]
-  package = "@netlify/plugin-nextjs" 
+  package = "@netlify/plugin-nextjs"
+
+# Functions directory
+[functions]
+  directory = "netlify/functions"
+
+# Redirect for single blog post
+[[redirects]]
+  from = "/api/posts/:slug"
+  to = "/.netlify/functions/get-post/:slug"
+  status = 200
+  force = false
+
+# Redirect for all blog posts
+[[redirects]]
+  from = "/api/posts"
+  to = "/.netlify/functions/get-posts"
+  status = 200
+  force = false
+
+# Fallback for blog routes
+[[redirects]]
+  from = "/blog/*"
+  to = "/blog/[slug]"
+  status = 200 

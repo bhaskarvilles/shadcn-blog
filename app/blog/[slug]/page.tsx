@@ -46,15 +46,45 @@ export async function generateMetadata(
   };
 }
 
+// Helper function to check if we're in production Netlify environment
+const isNetlifyProduction = () => {
+  return process.env.NETLIFY === 'true' && process.env.CONTEXT === 'production';
+};
+
+// Function to fetch post data from Netlify function when in production
+async function getPostData(slug: string) {
+  if (isNetlifyProduction()) {
+    try {
+      // In production, use the Netlify function
+      const response = await fetch(`/.netlify/functions/get-post/${slug}`);
+      
+      if (!response.ok) {
+        return null;
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching post from Netlify function:', error);
+      return null;
+    }
+  } else {
+    // In development, use the normal data fetching
+    return await getPostBySlug(slug);
+  }
+}
+
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const resolvedParams = await params;
   const slug = resolvedParams.slug;
-  const post = await getPostBySlug(slug);
+  
+  // Use the new function to get post data
+  const post = await getPostData(slug);
   
   if (!post) {
     notFound();
   }
   
+  // Get related posts (always using the normal function for simplicity)
   const relatedPosts = await getRelatedPosts(post, 3);
   
   return (
@@ -117,7 +147,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         </div>
         
         <div className="mt-8 flex flex-wrap gap-2">
-          {post.tags.map((tag) => (
+          {post.tags.map((tag: string) => (
             <Link key={tag} href={`/tags/${tag}`} passHref>
               <Badge variant="secondary" className="cursor-pointer">
                 <Tag className="mr-1 h-3 w-3" />
