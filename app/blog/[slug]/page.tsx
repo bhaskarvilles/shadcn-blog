@@ -55,8 +55,8 @@ const isNetlifyProduction = () => {
 async function getPostData(slug: string) {
   if (isNetlifyProduction()) {
     try {
-      // In production, use the Netlify function
-      const response = await fetch(`/.netlify/functions/get-post/${slug}`);
+      // In production, use the API route
+      const response = await fetch(`/api/posts/${slug}`);
       
       if (!response.ok) {
         return null;
@@ -64,7 +64,7 @@ async function getPostData(slug: string) {
       
       return await response.json();
     } catch (error) {
-      console.error('Error fetching post from Netlify function:', error);
+      console.error('Error fetching post from API:', error);
       return null;
     }
   } else {

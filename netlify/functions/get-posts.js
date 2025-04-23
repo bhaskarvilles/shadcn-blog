@@ -1,5 +1,5 @@
-// Import blog data functions from our helper file
-const { getAllPosts, getFeaturedPosts, getRecentPosts } = require('../../netlify-blog-api');
+// Import blog data functions from local file
+const { getAllPosts, getFeaturedPosts, getRecentPosts } = require('./blog-data');
 
 exports.handler = async (event) => {
   try {
